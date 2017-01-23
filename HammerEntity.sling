@@ -1,0 +1,28 @@
+class is SpriteEntity imports cape imports cave imports motion #hammerEntity:
+
+var hammer as TextureSprite
+var width as double
+var height as double
+var gameScene as GameScene
+
+func createSprite override as Sprite
+{
+	width = layer.getReferenceWidth()
+	height = layer.getReferenceHeight()
+	gameScene = scene as GameScene
+	hammer = gameScene.addTextureSpriteForSize(gameScene.createTextureForImageResource("hammer"), 0.04 * width, 0.06 * width)
+	hammer.move(width, height * 0.65)
+	return hammer
+}
+
+func tick(gameTime as TimeValue, delta as double) override
+{
+	base.tick(gameTime, delta)
+	move(getX() - delta / 3.5, getY())
+	// if(getX() < gameScene.getManEntity().getX() + gameScene.getManEntity().getWidth() && getX() + getWidth() > gameScene.getManEntity().getX() && getY() < gameScene.getManEntity().getY() + gameScene.getManEntity().getHeight() && getY() + getHeight() > gameScene.getManEntity().getY()) {
+	// 	gameScene.removeRockEntity(this)
+	// }
+	// if(getX() + getWidth() < 0) {
+	// 	gameScene.removeRockEntity(this)
+	// }
+}

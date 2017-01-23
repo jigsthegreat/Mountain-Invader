@@ -1,0 +1,98 @@
+class is SpriteEntity is PointerListener is KeyListener imports cape imports cave imports motion #manEntity:
+
+var width as double
+var height as double
+var gameScene as GameScene
+var isClicked as boolean
+var moveDown as boolean
+var isUp as boolean
+var isDown as boolean
+var isLeft as boolean
+var isRight as boolean
+var isSpace as boolean
+var man as TextureSprite
+var speed as double
+
+func createSprite override as Sprite
+{
+	speed = 0.023
+	width = layer.getReferenceWidth()
+	height = layer.getReferenceHeight()
+	gameScene = scene as GameScene
+	isClicked = false
+	moveDown = false
+	isUp = false
+	isDown = false
+	isLeft = false
+	isRight = false
+	isSpace = false
+	man = gameScene.addTextureSpriteForSize(gameScene.createTextureForImageResource("man"), 0.08 * width, 0.1 * width)
+	man.move(width * 0.03, height * 0.6)
+	return man
+}
+
+func onPointerEvent(event as PointerEvent) as bool
+{
+	if(event.action == PointerEvent.DOWN) {
+		isClicked = true
+	}
+	else if(event.action == PointerEvent.UP) {
+		// isClicked = false
+	}
+	// pointerX = event.getX()
+	// pointerY = event.getY()
+	return false
+}
+
+func onKeyEvent(event as KeyEvent)
+{
+	if(event.isKey(KeyEvent.KEY_UP)) {
+		isUp = true
+	}
+	else if(event.isKey(KeyEvent.KEY_DOWN)) {
+		isDown = true
+	}
+	else if(event.isKey(KeyEvent.KEY_LEFT)) {
+		isLeft = true
+	}
+	else if(event.isKey(KeyEvent.KEY_RIGHT)) {
+		isRight = true
+	}
+	else if(event.isKey(KeyEvent.KEY_SPACE)) {
+		isSpace = true
+	}
+	else {
+		PRINT("Unhandled key event: '" .. event.getStringValue() .. "'")
+	}
+	if(event.getAction() == 2) {
+		isLeft = false
+		isRight = false
+	}
+}
+
+func tick(gameTime as TimeValue, delta as double) override
+{
+	base.tick(gameTime, delta)
+	if(isClicked || isUp || isSpace) {
+		jump()
+	}
+	if(isLeft && getX() > 0) {
+		move(getX() - 0.005, getY())
+	}
+	if(isRight && getX() + getWidth() < width) {
+		move(getX() + 0.005, getY())
+	}
+}
+
+func jump as void
+{
+	speed -= 0.001
+	move(getX(), getY() - speed)
+	if(speed <= -0.023) {
+		isClicked = false
+		isUp = false
+		isSpace = false
+		speed = 0.023
+		man.move(getX(), height * 0.6)
+	}
+}

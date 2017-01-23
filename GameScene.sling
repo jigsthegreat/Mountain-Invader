@@ -1,0 +1,111 @@
+class is SpriteSceneWithEntities imports cape imports cave imports motion #gameScene:
+
+var background as BackgroundEntity
+var height as double
+var width as double
+var time as int
+var man as ManEntity
+var rockEntity as RockEntity
+var rockEntities as vector<SpriteEntity>
+// var quitbutton as TextSprite
+// var ball as BallEntity
+// var monster as MonsterEntity
+// var audioManager as AudioManager
+// var stream as AudioStream
+
+func initialize override
+{
+	base.initialize()
+	width = getReferenceWidth()
+	height = getReferenceHeight()
+	time = 0
+	// audioManager = AudioManager.forApplication(context)
+	// if(audioManager != null) {
+	// 	stream = audioManager.getStreamForResource("game")
+	// }
+	// var textProp = TextProperties.forText("QUIT")
+	// textProp.setTextColor(Color.white())
+	// textProp.setBackgroundColor(Color.black())
+	// textProp.setFontSizeRelative(0.075 * height)
+	// textProp.setFontFamily("Garamond")
+	rockEntities = new vector<SpriteEntity>
+	addEntity(background = new BackgroundEntity())
+	addEntity(man = new ManEntity())
+	addEntity(rockEntity = new RockEntity())
+	rockEntity += rockEntity
+	// quitbutton = addTextSprite(textProp)
+	// quitbutton.move(width - quitbutton.getWidth(), 0)
+	// addEntity(ball = new BallEntity())
+	// onTimeToPlayStream()
+}
+
+func removeRockEntity(e as Entity) as void
+{
+	removeEntity(e)
+	Vector.removeValue(rockEntities, e)
+}
+
+func getManEntity as SpriteEntity
+{
+	return man
+}
+
+// func onTimeToPlayStream
+// {
+// 	if(stream != null) {
+// 		stream.play()
+// 		stream.setLooping(true)
+// 	}
+// }
+
+// func getStream as AudioStream
+// {
+// 	return stream
+// }
+
+// func getContext as ApplicationContext
+// {
+// 	return context
+// }
+
+// func getBallEntity as SpriteEntity
+// {
+// 	return ball
+// }
+
+func cleanup override
+{
+	removeAllSprites()
+	// Vector.clear(monsterEntities)
+}
+
+func onPointerEvent(event as PointerEvent) override
+{
+	base.onPointerEvent(event)
+	if(event.isConsumed) {
+		return
+	}
+	// else if(event.action == PointerEvent.DOWN) {
+	// 	if(event.isInside(quitbutton.getX(), quitbutton.getY(), quitbutton.getWidth(), quitbutton.getHeight())) {
+	// 		backToMainScene()
+	// 	}
+	// }
+}
+
+// func backToMainScene
+// {
+// 	stream.stop()
+// 	popScene()
+// }
+
+func tick(gameTime as TimeValue, delta as double) override
+{
+	base.tick(gameTime, delta)
+	time++
+	if ((time % 200) == 0) {
+		var rock = new RockEntity()
+		addEntity(rock)
+		rockEntities += rock
+		// monsterEntities += mon
+	}
+}

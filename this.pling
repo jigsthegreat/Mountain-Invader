@@ -1,0 +1,18 @@
+title = "Player and Monsters"
+description = "Player and Monsters app."
+copyright = "Copyright (c) Program"
+license = "All rights reserved"
+version = "1.0.x"
+vendorId = "com.jigs"
+depends = [
+	"cape",
+	"cave",
+	"motion"
+]
+resources = [
+	"images"
+]
+preFilters += "@motion"
+compilerOptions = {
+	"html5.readableCode" : "true"
+}

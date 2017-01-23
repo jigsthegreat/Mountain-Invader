@@ -1,0 +1,76 @@
+class is SpriteSceneWithEntities imports cape imports cave imports motion #mainScene:
+
+var backgroundmain as TextureSprite
+var height as double
+var width as double
+var playbutton as TextureSprite
+// var text as TextSprite
+// var audioManager as AudioManager
+// var clip as AudioClip
+// var stream as AudioStream
+// var mansheet as MansheetEntity
+
+func initialize override
+{
+	base.initialize()
+	height = getReferenceHeight()
+	width = getReferenceWidth()
+	// audioManager = AudioManager.forApplication(context)
+	// if(audioManager != null) {
+	// 	clip = audioManager.getClipForResource("honk")
+	// 	stream = audioManager.getStreamForResource("main")
+	// }
+	backgroundmain = addTextureSpriteForSize(createTextureForImageResource("backgroundmain"), width, height)
+	playbutton = addTextureSpriteForSize(createTextureForImageResource("playbutton"), 0.2 * width, 0.2 * height)
+	playbutton.move(0.5 * width - 0.5 * playbutton.getWidth(), 0.6 * height)
+	// var textProp = TextProperties.forText("BALL GAME")
+	// textProp.setTextColor(Color.white())
+	// textProp.setFontSizeRelative(0.1 * height)
+	// textProp.setFontFamily("Garamond")
+	// text = addTextSprite(textProp)
+	// text.move(0.5 * width - text.getWidth() * 0.5, 0)
+	// onTimeToPlayStream()
+	// addEntity(new MansheetEntity())
+}
+
+// func onTimeToPlaySoundClip
+// {
+// 	if(clip != null) {
+// 		clip.play()
+// 	}
+// }
+
+// func onTimeToPlayStream
+// {
+// 	if(stream != null) {
+// 		stream.play()
+// 		stream.setLooping(true)
+// 	}
+// }
+
+func cleanup override
+{
+	//base.cleanup()
+	removeSprite(backgroundmain)
+	removeSprite(playbutton)
+	// removeSprite(text)
+}
+
+func switchToGameScene
+{
+	// stream.stop()
+	pushScene(new GameScene())
+}
+
+func onPointerEvent(event as PointerEvent) override
+{
+	base.onPointerEvent(event)
+	if(event.isConsumed) {
+		return
+	}
+	if(event.action == PointerEvent.DOWN) {
+		if(event.isInside(playbutton.getX(), playbutton.getY(), playbutton.getWidth(), playbutton.getHeight())) {
+			switchToGameScene()
+		}
+	}
+}

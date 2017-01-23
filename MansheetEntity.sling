@@ -1,0 +1,30 @@
+class is SpriteSheetEntity imports motion imports cape imports cave #mansheetEntity:
+
+var man as TextureSprite
+
+func createSprite override as Sprite
+{
+	var sceneWidth = layer.getReferenceWidth()
+	var sceneHeight = layer.getReferenceHeight()
+	var img = scene.createImageFromResource("runningman")
+	var texture = scene.createTextureForImage(img)
+	var imageSheet = new ImageSheet()
+	imageSheet.setSheet(img)
+	imageSheet.setRows(2)
+	imageSheet.setCols(5)
+	imageSheet.setMaxImages(10)
+	setImageSheet(imageSheet.toImages())
+	setFramesPerSecond(60)
+	var csize = 0.1 * sceneHeight
+	man = SpriteUtil.addTextureSpriteForSize(scene, layer, texture, csize, csize)
+	var center = man.getWidth() * 0.5
+	man.move(sceneWidth * 0.5 - center, sceneHeight * 0.5)
+	return(man)
+}
+
+func tick(gameTime as TimeValue, delta as double) override
+{
+	base.tick(gameTime, delta)
+	man.setRotation(man.getRotation() + 0.001)
+	man.move(man.getX() + 0.001, man.getY())
+}
